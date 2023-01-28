@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        canvas {
+            background-color: black;
+        }
+        #sysCanvas {
+            position: absolute;
+            display: none;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+        #sysBack{
+            position: absolute;
+            display: none;
+            top: 0;
+            left: 0;
+            z-index: 2;
+            background-color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            margin: 10px;
+            justify-content: center;
+            align-items: center;
+            font-size: 30px;
+            text-align: center;
+            font-weight: bolder;
+            font-family: 'Courier New', Courier, monospace;
+            cursor: pointer;
+        }
+        #sysBack:hover{
+            background-color: #e0e0e0;
+            animation: pulse 0.5s;
+        }
+        #fps{
+            position: absolute;
+            top: 0;
+            right: 0;
+            z-index: 3;
+            color: white;
+            font-size: 20px;
+            font-family: 'Courier New', Courier, monospace;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    <canvas id="sysCanvas"></canvas>
+    <div id="sysBack" onclick="killSystem()"><</div>
+    <div id="fps"></div>
+
+    <script src="main.js"></script>
+    <script src="draw.js"></script>
+    <script src="pan&zoom.js"></script>
+    <script src="star.js"></script>
+    <script src="planet.js"></script>
+    <script src="moon.js"></script>
+    <script src="systemGenerator.js"></script>
+</body>
+</html>
