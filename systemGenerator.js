@@ -7,6 +7,8 @@ class System {
         document.getElementById('sysBack').style.display = 'flex';
         canvas.style.display = 'none';
 
+        focusCamera = false;
+
         sysOffsetX = -sysCanvas.width / 2;
         sysOffsetY = -sysCanvas.height / 2;
         sysScale = 1;
@@ -38,6 +40,10 @@ let sysClick = true;
 let selectedPlanet = null;
 let hoveredAster = null;
 
+let mouseSys = { x: 0, y: 0 };
+
+let focusCamera = false;
+
 function sysMousedown(event) {
     sysDragStart = {
         x: event.pageX - sysCanvas.offsetLeft,
@@ -49,6 +55,7 @@ function sysMousedown(event) {
 function sysMousemove(event) {
     if (sysDrag) {
         if (sysClick) sysClick = false;
+        focusCamera = false;
 
         sysDragEnd = {
             x: event.pageX - sysCanvas.offsetLeft,
@@ -73,6 +80,8 @@ function sysMousemove(event) {
         checkHoveredAster(sysGetCursorPosition(event));
     }
 
+    mouseSys = sysGetCursorPosition(event);
+
     sysClear();
     sysDraw();
 }
@@ -81,6 +90,8 @@ function sysMouseup(event) { sysDrag = false; }
 
 function sysWheel(event) {
     event.preventDefault();
+
+    focusCamera = false;
 
     // Gets the cursor position:
     const mousePos = sysGetCursorPosition(event);
@@ -106,6 +117,16 @@ function sysWheel(event) {
     sysDraw();
 }
 
+function sysMouseclick(event) {
+    if (sysClick) {
+        if (hoveredAster != null) {
+            selectedPlanet = hoveredAster;
+            sysScale = 1;
+            focusCamera = true;
+        }
+    }
+}
+
 function checkHoveredAster(mouse) {
     const mouseDistance = Math.sqrt((mouse.x - sysWorldToScreenX(0)) ** 2 + (mouse.y - sysWorldToScreenY(0)) ** 2);
 
@@ -116,6 +137,21 @@ function checkHoveredAster(mouse) {
         if (system == null) return;
 
         const planet = system.planets[i];
+
+        // Checks if the mouse is over the planet's moons:
+        const numMoons = planet.moons.length;
+
+        for (let j = 0; j < numMoons; j++) {
+            const moon = planet.moons[j];
+
+            const mouseDistanceToPlanet = Math.sqrt((mouse.x - sysWorldToScreenX(planet.x)) ** 2 + (mouse.y - sysWorldToScreenY(planet.y)) ** 2);
+
+            if (mouseDistanceToPlanet < (moon.distanceFromPlanet + moon.radius * 3) * sysScale && mouseDistanceToPlanet > (planet.radius * 3 + 10) * sysScale) {
+                sysCanvas.style.cursor = 'pointer';
+                hoveredAster = moon;
+                return;
+            }
+        }
 
         if (mouseDistance < (planet.distance + planet.radius) * 10 * sysScale && mouseDistance > (planet.distance - planet.radius) * 10 * sysScale) {
             sysCanvas.style.cursor = 'pointer';
@@ -141,10 +177,16 @@ const fps = document.getElementById('fps');
 function sysAnimate() {
     try {
         //logs the fps:
-        //fps.innerHTML = 'Hover: ' + hoveredAster;//+ (1000 / (Date.now() - lastTime));
+        if (selectedPlanet != null) fps.innerHTML = selectedPlanet.constructor.name;
+        else fps.innerHTML = 'null';
         //lastTime = Date.now();
 
         updateSystem();
+
+        if (focusCamera) {
+            sysOffsetX = selectedPlanet.x - sysCanvas.width / 2;
+            sysOffsetY = selectedPlanet.y - sysCanvas.height / 2;
+        }
 
         sysClear();
         sysDraw();
@@ -176,14 +218,37 @@ function sysDrawPlanetsObirts() {
 }
 
 function sysDraw() {
+    updateSystem();
     system.star.sysDraw();
     sysDrawPlanetsObirts();
     sysDrawPlanets();
     sysDrawHover();
+    //sysDrawLineStarToHoveredAster();
+    //sysDrawLineMouseToHoveredAster();
 }
 
 function sysClear() {
     sysCtx.clearRect(0, 0, sysCanvas.width, sysCanvas.height);
+}
+
+function sysDrawLineStarToHoveredAster() {
+    if (hoveredAster !== null) {
+        sysCtx.beginPath();
+        sysCtx.moveTo(sysWorldToScreenX(0), sysWorldToScreenY(0));
+        sysCtx.lineTo(sysWorldToScreenX(hoveredAster.x), sysWorldToScreenY(hoveredAster.y));
+        sysCtx.strokeStyle = 'white';
+        sysCtx.stroke();
+    }
+}
+
+function sysDrawLineMouseToHoveredAster() {
+    if (hoveredAster !== null) {
+        sysCtx.beginPath();
+        sysCtx.moveTo(sysWorldToScreenX(hoveredAster.x), sysWorldToScreenY(hoveredAster.y));
+        sysCtx.lineTo(mouseSys.x, mouseSys.y);
+        sysCtx.strokeStyle = 'white';
+        sysCtx.stroke();
+    }
 }
 
 function sysDrawPlanets() {

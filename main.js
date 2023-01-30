@@ -83,7 +83,7 @@ function sysCanvasSetup() {
     sysCanvas.addEventListener('mousemove', sysMousemove);
     sysCanvas.addEventListener('mouseup', sysMouseup);
     sysCanvas.addEventListener('wheel', sysWheel);
-    // sysCanvas.addEventListener('click', mouseclick);
+    sysCanvas.addEventListener('click', sysMouseclick);
 }
 
 function sysCanvasResize() {

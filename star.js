@@ -2,12 +2,14 @@ class Star {
 
     seed;
     exists = false;
+    x = 0;
+    y = 0;
 
-    constructor(x, y, generateSystem = false) {
-        this.x = x;
-        this.y = y;
+    constructor(nx, ny, generateSystem = false) {
+        this.nx = nx;
+        this.ny = ny;
 
-        this.seed = (x & 0xFFFF) << 16 | (y & 0xFFFF);
+        this.seed = (nx & 0xFFFF) << 16 | (ny & 0xFFFF);
 
         this.exists = (this.randomInt(0, 20) == 1);
 
@@ -62,14 +64,14 @@ class Star {
 
     draw() {
         ctx.beginPath();
-        ctx.arc(worldToScreenX(this.x) + 25 * scale, worldToScreenY(this.y) + 25 * scale, this.radius * scale, 0, 2 * Math.PI);
+        ctx.arc(worldToScreenX(this.nx) + 25 * scale, worldToScreenY(this.ny) + 25 * scale, this.radius * scale, 0, 2 * Math.PI);
         ctx.fillStyle = this.color;
         ctx.fill();
     }
 
     drawCircle() {
         ctx.beginPath();
-        ctx.arc(worldToScreenX(this.x) + 25 * scale, worldToScreenY(this.y) + 25 * scale, this.radius * scale, 0, 2 * Math.PI);
+        ctx.arc(worldToScreenX(this.nx) + 25 * scale, worldToScreenY(this.ny) + 25 * scale, this.radius * scale, 0, 2 * Math.PI);
         ctx.strokeStyle = 'white';
         ctx.lineWidth = 2 * scale;
         ctx.stroke();
