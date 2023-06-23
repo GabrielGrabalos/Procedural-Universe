@@ -13,6 +13,7 @@
         }
         canvas {
             background-color: black;
+            user-select: none;
         }
         #sysCanvas {
             position: absolute;
@@ -30,11 +31,11 @@
             background-color: white;
             width: 50px;
             height: 50px;
-            border-radius: 10px;
+            border-radius: 50%;
             margin: 10px;
             justify-content: center;
             align-items: center;
-            font-size: 30px;
+            font-size: 20px;
             text-align: center;
             font-weight: bolder;
             font-family: 'Courier New', Courier, monospace;
@@ -60,7 +61,6 @@
     <canvas id="canvas"></canvas>
     <canvas id="sysCanvas"></canvas>
     <div id="sysBack" onclick="killSystem()"><</div>
-    <div id="fps"></div>
 
     <script src="main.js"></script>
     <script src="draw.js"></script>

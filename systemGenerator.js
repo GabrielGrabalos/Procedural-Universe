@@ -74,16 +74,14 @@ function sysMousemove(event) {
         sysClick = true;
 
         // change the cursor to a grabbing hand:
-        sysCanvas.style.cursor = 'grab';
+        if (hoveredAster == null)
+            sysCanvas.style.cursor = 'grab';
 
         // Checks if the mouse is over a planet:
-        checkHoveredAster(sysGetCursorPosition(event));
+        //checkHoveredAster(sysGetCursorPosition(event));
     }
 
     mouseSys = sysGetCursorPosition(event);
-
-    sysClear();
-    sysDraw();
 }
 
 function sysMouseup(event) { sysDrag = false; }
@@ -111,10 +109,6 @@ function sysWheel(event) {
     // Offset:
     sysOffsetX += mouseBeforeZoomX - mouseAfterZoomX;
     sysOffsetY += mouseBeforeZoomY - mouseAfterZoomY;
-
-    // Draw:
-    sysClear();
-    sysDraw();
 }
 
 function sysMouseclick(event) {
@@ -169,17 +163,18 @@ function checkHoveredAster(mouse) {
     }
 
     hoveredAster = null;
+    sysCanvas.style.cursor = 'grab';
 }
 
-let lastTime = Date.now();
-const fps = document.getElementById('fps');
+/*let lastTime = Date.now();
+const fps = document.getElementById('fps');*/
 
 function sysAnimate() {
     try {
-        //logs the fps:
+        /*/logs the fps:
         if (selectedPlanet != null) fps.innerHTML = selectedPlanet.constructor.name;
         else fps.innerHTML = 'null';
-        //lastTime = Date.now();
+        //lastTime = Date.now();*/
 
         updateSystem();
 
@@ -187,6 +182,8 @@ function sysAnimate() {
             sysOffsetX = selectedPlanet.x - sysCanvas.width / 2;
             sysOffsetY = selectedPlanet.y - sysCanvas.height / 2;
         }
+
+        if (!sysDrag) checkHoveredAster(mouseSys);
 
         sysClear();
         sysDraw();

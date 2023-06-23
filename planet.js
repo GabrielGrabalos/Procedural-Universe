@@ -50,8 +50,8 @@ class Planet {
     sysDrawOrbit() {
         sysCtx.beginPath();
         sysCtx.arc(sysWorldToScreenX(0), sysWorldToScreenY(0), this.distance * 10 * sysScale, 0, 2 * Math.PI);
-        sysCtx.strokeStyle = 'rgba(255, 255, 255,' + 0.8 * sysScale + ')';
-        sysCtx.lineWidth = 1 // * sysScale;
+        sysCtx.strokeStyle = 'white'//'rgba(255, 255, 255,' + 0.8 * sysScale + ')';
+        sysCtx.lineWidth = 1  * sysScale;
         sysCtx.stroke();
     }
 

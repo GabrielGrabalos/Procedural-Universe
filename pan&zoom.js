@@ -116,7 +116,7 @@ function wheel(event) {
     draw();
 }
 
-const speed = 40;
+const speed = 400;
 const acceptedKeys = {
     W() {
         offsetY -= speed / scale;
