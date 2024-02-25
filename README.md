@@ -15,7 +15,7 @@ This project is built using plain HTML, CSS, and JavaScript, with no external li
 
 ## 🚀 Getting Started
 
-To start exploring the universe, simply visit the [Procedural Universe](https://github.com/GabrielGrabalos/Procedural-Universe) hosted on GitHub Pages. Once there, you can use your mouse or trackpad to navigate around the universe. Click on a star to view its system in more detail.
+To start exploring the universe, simply visit the [Procedural Universe](https://gabrielgrabalos.github.io/Procedural-Universe) hosted on GitHub Pages. Once there, you can use your mouse or trackpad to navigate around the universe. Click on a star to view its system in more detail.
 
 ## 🌌 How to Use
 
